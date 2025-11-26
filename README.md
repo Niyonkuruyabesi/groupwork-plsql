@@ -1,5 +1,16 @@
 # groupwork-plsql
 
+Group Members
+
+1. IGINAREZA Honette 27707
+2. MUTUYIMANA Evelyne 27701
+3. NIYONKURU NYIRIMPETA Yabesi 27715
+4. ARAJE Divin 26461
+5. NIYIBIZI Olivier 28248
+6. GATETE Odry 2
+
+# groupwork-plsql
+
 A combined PL/SQL project containing two major components:
 
 1. **Hospital Management Package**  
