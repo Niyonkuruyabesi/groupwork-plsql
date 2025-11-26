@@ -105,4 +105,9 @@ User honette has exceeded 3 failed login attempts today.
 
 
 
+ ![Fare Histogram](calling_triger/triger_working.jpeg)
+
+
+
+
 
