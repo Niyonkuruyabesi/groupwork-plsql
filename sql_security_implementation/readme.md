@@ -53,25 +53,33 @@ alert_message	Description of the alert
 
 contact_email	Email to notify Trigger Logic
 
+
+
 A compound trigger on login_audit performs the following tasks:
 
 After each login attempt is recorded, it checks how many failed attempts the user has made today.
 
 If the user exceeds 2 failed attempts (i.e., fails 3 or more times), the system inserts a record into security_alerts.
 
+
+
 Optional: The trigger can call a stored procedure to send an email notification.
 
 This prevents the common Oracle error ORA-04091 (mutating table) by separating row-level and statement-level logic.
 
+
 Expected System Behavior
 
+
 Condition	System Action
+
 
 1–2 failed login attempts	Stored only in login_audit
 
 3rd failed attempt	security_alerts entry created
 
 3 failed attempts	Additional alerts created (Optional: one per day)
+
 
 Successful login	Recorded normally without alerts
 
@@ -94,4 +102,5 @@ A stored procedure using UTL_MAIL or UTL_SMTP can automatically notify the secur
 Example message:
 
 User honette has exceeded 3 failed login attempts today.
+
 
