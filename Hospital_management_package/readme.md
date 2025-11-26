@@ -1,96 +1,81 @@
-Login Security Monitoring System
+# Groupwork-plsql
+hospital management package and login audit&amp; security alert sustem
 
-A database solution for monitoring suspicious login behavior and enforcing security policies.
 
- Project Overview
+Hospital Management PL/SQL Package
 
-This project implements a database-level security monitoring system to detect and record suspicious login attempts. The system tracks all login activity, identifies repeated failed attempts, and generates security alerts automatically.
 
- Objectives
+Overview
 
-Record every login attempt (success or failure).
+This project implements a Hospital Management System using PL/SQL in an Oracle database.
+It provides functionality to efficiently manage patients and doctors, including bulk insertion of patient records, displaying patient information, admitting patients, and tracking admitted patients.
 
-Detect when a user exceeds the allowed number of failed attempts in a day.
+Features
 
-Automatically generate security alerts for suspicious behavior.
+Patient Management
 
-(Optional) Send an email notification to the security team.
+Store patient details (ID, name, age, gender, admitted status)
 
- Database Objects
- 
-1. login_audit Table
+Admit patients and track their admission status
 
-Stores all login attempts.
+Doctor Management
 
-Column	Description
+Store doctor details (ID, name, specialty)
 
-audit_id	Unique identifier for each login attempt
+Bulk Operations
 
-username	Username used in the login attempt
+Efficient bulk insertion of multiple patient records using PL/SQL collections
 
-attempt_time	Timestamp of the attempt
+Query Functions
 
-status	SUCCESS or FAILED
+Display all patients
 
-ip_address	Optional: IP or device information
+Count the number of admitted patients
 
-2. security_alerts Table
+Database Objects
 
-Stores generated alerts when suspicious behavior is detected.
+Tables
 
-Column	Description
+patients – Stores patient information
 
-alert_id	Unique identifier for each alert
+doctors – Stores doctor information
 
-username	User who triggered the alert
 
-failed_attempts	Number of failed attempts detected
+PL/SQL Package: hospital_pkg
 
-alert_time	Timestamp when the alert was created
+Procedures
 
-alert_message	Description of the alert
+bulk_load_patients(p_patients IN patient_table) – Inserts multiple patients at once
 
-contact_email	Email to notify Trigger Logic
+admit_patient(p_id IN NUMBER) – Updates a patient’s admitted status to 'YES'
 
-A compound trigger on login_audit performs the following tasks:
+Functions
 
-After each login attempt is recorded, it checks how many failed attempts the user has made today.
+show_all_patients RETURN SYS_REFCURSOR – Returns all patients
 
-If the user exceeds 2 failed attempts (i.e., fails 3 or more times), the system inserts a record into security_alerts.
+count_admitted RETURN NUMBER – Returns the count of admitted patients
 
-Optional: The trigger can call a stored procedure to send an email notification.
 
-This prevents the common Oracle error ORA-04091 (mutating table) by separating row-level and statement-level logic.
 
- Expected System Behavior
- 
-Condition	System Action
+Bulk Insert Patients
 
-1–2 failed login attempts	Stored only in login_audit
-
-3rd failed attempt	security_alerts entry created
-
->3 failed attempts	Additional alerts created (Optional: one per day)
->
-Successful login	Recorded normally without alerts
-
- Testing the System
- 
-Insert test login attempts:
 ```sql
-INSERT INTO login_audit (username, status) VALUES ('john', 'FAILED');
-INSERT INTO login_audit (username, status) VALUES ('john', 'FAILED');
-INSERT INTO login_audit (username, status) VALUES ('john', 'FAILED');  -- Triggers alert
+DECLARE
+    l_patients hospital_pkg.patient_table := hospital_pkg.patient_table();
+BEGIN
+    -- Add patient records to the collection
+    -- Call hospital_pkg.bulk_load_patients(l_patients);
+END;
 ```
-Check alerts:
+Display All Patients
 ```sql
-SELECT * FROM security_alerts;
+l_rc := hospital_pkg.show_all_patients;
 ```
- Optional Email Notification (Advanced Feature)
-
-A stored procedure using UTL_MAIL or UTL_SMTP can automatically notify the security team whenever an alert is generated.
-
-Example message:
-
-
-User john has exceeded 3 failed login attempts today.
+Admit a Patient
+```sql
+hospital_pkg.admit_patient(2);
+```
+Count Admitted Patients
+```sql
+total := hospital_pkg.count_admitted;
+```
