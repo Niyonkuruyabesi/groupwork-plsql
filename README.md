@@ -7,7 +7,7 @@ Group Members
 3. NIYONKURU NYIRIMPETA Yabesi 27715
 4. ARAJE Divin 26461
 5. NIYIBIZI Olivier 28248
-6. GATETE Odry 2
+6. GATETE Odry 28450
 
 # groupwork-plsql
 
